@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>동래 반도유보라-새로운 라이프의 시작</title>
-    <meta name="description" content="부산 동래 반도 유보라 공식 랜딩페이지. 사업개요, 입지환경, 단지설계, 평면도, 방문예약 정보 제공.">
+    <meta name="description" content="부산 동래 반도 유보라 웹사이트. 사업개요, 입지환경, 단지설계, 평면도, 방문예약 정보 제공.">
     <meta property="og:title" content="동래 반도유보라-새로운 라이프의 시작">
-    <meta property="og:description" content="부산 동래 반도 유보라 공식 랜딩페이지. 사업개요, 입지환경, 단지설계, 평면도, 방문예약 정보 제공.">
+    <meta property="og:description" content="부산 동래 반도 유보라 웹사이트. 사업개요, 입지환경, 단지설계, 평면도, 방문예약 정보 제공.">
 
     <link rel="preconnect" href="https://cdn.tailwindcss.com">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
@@ -1436,7 +1436,7 @@
                      <div id="interior-a" class="image-gallery type-content active">
                          <img src="https://ubora-dongnae.com/images/sub52_1_1.jpg?ver=2" alt="[84㎡A 인테리어 뷰 1]" class="w-full h-auto rounded-lg shadow" onerror="this.onerror=null; this.src='https://placehold.co/300x200/E0F2F7/333333?text=84%E3%8E%A1A+Interior+1';">
                          <img src="https://ubora-dongnae.com/images/sub52_1_2.jpg?ver=2" alt="[84㎡A 인테리어 뷰 2]" class="w-full h-auto rounded-lg shadow" onerror="this.onerror=null; this.src='https://placehold.co/300x200/E0F2F7/333333?text=84%E3%8E%A1A+Interior+2';">
-                         <img src="https://ubora-dongnae.com/images/sub52_1_3.jpg?ver=2" alt="[84㎡A 인테리어 뷰 3]" class="w-full h-auto rounded-lg shadow" onerror="this.onerror=null; this.src='https://placehold.co/300x200/E0F2F7/333333?text=84%E3%8E%A1A+Interior+3';">
+                         <img src="https://ubora-dongnae.com/images/sub52_1_3.jpg?ver=2" alt="[84㎡A 인테리어 뷰 3]" class="w-full h-auto rounded-lg shadow" onerror="this.onerror=null; this.src='https://placehold.co/300x200/E0F2F7/333333?text=84%E3%A1A+Interior+3';">
                          <img src="https://ubora-dongnae.com/images/sub52_1_4.jpg?ver=2" alt="[84㎡A 인테리어 뷰 4]" class="w-full h-auto rounded-lg shadow" onerror="this.onerror=null; this.src='https://placehold.co/300x200/E0F2F7/333333?text=84%E3%A1A+Interior+4';">
                      </div>
 
@@ -1631,6 +1631,7 @@
         }
 
         // Function to show a specific section and hide others
+        // This function is now primarily used for initial load and logo/direct link clicks
         function showSection(sectionId) {
             const sections = document.querySelectorAll('section');
             sections.forEach(sec => {
@@ -1660,15 +1661,14 @@
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
 
-        // Define the groups of sections for mobile navigation (This grouping logic might need adjustment or removal
-        // depending on how you want mobile menu to behave with History API. For now, keeping it
-        // but the primary navigation logic will be handled by showSection and History API)
+        // Define the groups of sections for mobile navigation
+        // When a mobile link with data-group is clicked, all sections in the corresponding array will be shown.
         const sectionGroups = {
-            business: ['overview', 'location', 'premium-features'],
-            complex: ['design', 'units', 'system-section'],
-            unit: ['floor-plans', 'facilities'],
-            location: ['how-to-get-here'],
-            contact: ['contact']
+            business: ['#overview', '#location', '#premium-features'],
+            complex: ['#design', '#units', '#system-section'],
+            unit: ['#floor-plans', '#facilities'],
+            location: ['#how-to-get-here'],
+            contact: ['#contact']
         };
 
 
@@ -1682,11 +1682,50 @@
 
             // Check if there's a hash in the URL on load
             const initialHash = window.location.hash;
-            if (initialHash && document.querySelector(initialHash)) {
-                // If hash exists and corresponds to a section, show that section
-                showSection(initialHash);
-                 // Replace the initial history state with the current section's state
+            if (initialHash) {
+                 // Find which group the initial hash belongs to, or if it's a standalone section
+                 let groupToShow = null;
+                 let isStandalone = true;
+
+                 // Check if the hash is the first section of any group
+                 for (const groupKey in sectionGroups) {
+                     if (sectionGroups[groupKey][0] === initialHash) {
+                         groupToShow = sectionGroups[groupKey];
+                         isStandalone = false;
+                         break;
+                     }
+                 }
+
+                 if (groupToShow) {
+                     // If it's the first section of a group, show all sections in that group
+                      sections.forEach(sec => {
+                         sec.style.display = 'none';
+                         sec.classList.remove('active-section');
+                     });
+                      groupToShow.forEach(id => {
+                          const sectionElement = document.querySelector(id);
+                          if (sectionElement) {
+                              sectionElement.style.display = 'block'; // Group sections are block
+                              sectionElement.classList.add('active-section');
+                          }
+                      });
+                      // Scroll to the first section in the group
+                      const firstSectionElement = document.querySelector(groupToShow[0]);
+                      if(firstSectionElement) {
+                           firstSectionElement.scrollIntoView({ behavior: 'smooth' });
+                      }
+
+                 } else if (document.querySelector(initialHash)) {
+                     // If it's a standalone section (or not the first in a group), just show that section
+                     showSection(initialHash);
+                 } else {
+                      // If hash doesn't match any section, default to hero
+                     showSection('#hero-section');
+                 }
+
+                 // Replace the initial history state with the current state
                  history.replaceState({ sectionId: initialHash }, '', initialHash);
+
             } else {
                 // Otherwise, show the hero section
                 showSection('#hero-section');
@@ -1694,7 +1733,6 @@
                 // Use window.location.pathname to avoid adding '#' to the initial URL
                 history.pushState({ sectionId: '#hero-section' }, 'Home', window.location.pathname);
             }
-
 
             // Initialize floor plan display
             const floorPlanButtons = document.querySelectorAll('#floor-plans .type-button');
@@ -1731,36 +1769,61 @@
                 event.preventDefault(); // Prevent default anchor link behavior
 
                 const targetId = this.getAttribute('href');
+                const isMobile = window.matchMedia('(max-width: 767px)').matches;
+                const dataGroup = this.getAttribute('data-group'); // Get the data-group attribute
 
                 // Special handling for the logo link (href="#")
                 if (targetId === '#') {
-                    // Show the hero section
                     showSection('#hero-section');
-                    // Push the hero section state to history
                     history.pushState({ sectionId: '#hero-section' }, 'Home', window.location.pathname); // Use pathname for clean URL
+                } else if (isMobile && dataGroup && sectionGroups[dataGroup]) {
+                    // If on mobile AND the link has a data-group AND that group exists in sectionGroups
+                    const sectionIdsToShow = sectionGroups[dataGroup];
+
+                    // Hide ALL sections first
+                    sections.forEach(sec => {
+                        sec.style.display = 'none';
+                        sec.classList.remove('active-section');
+                    });
+
+                    // Show only the sections in the selected group
+                    sectionIdsToShow.forEach(id => {
+                        const sectionElement = document.querySelector(id);
+                        if (sectionElement) {
+                            // Hero section is handled separately, group sections are block
+                            sectionElement.style.display = 'block';
+                            sectionElement.classList.add('active-section');
+                        }
+                    });
+
+                    // Scroll to the first section in the group
+                    const firstSectionInGroup = document.querySelector(sectionIdsToShow[0]);
+                     if (firstSectionInGroup) {
+                         setTimeout(() => {
+                             firstSectionInGroup.scrollIntoView({ behavior: 'smooth' });
+                         }, 50); // Small delay
+                     }
+
+                    // Update history state to the targetId of the clicked link (which is the first section in the group)
+                    history.pushState({ sectionId: targetId }, this.textContent || 'Section', targetId);
+
+
                 } else {
-                     // Get the text content of the link for the history state title (optional)
-                    const linkText = this.textContent || this.getAttribute('aria-label') || 'Section'; // Fallback title
-
-                    // Use pushState to add the new section to the browser history
-                    // State object: { sectionId: targetId } - stores the ID of the section to show
-                    // Title: linkText - browser might use this (often ignored)
-                    // URL: targetId - updates the URL in the address bar with the hash
+                    // Default behavior for desktop links or mobile links without data-group (like the phone button)
+                    const linkText = this.textContent || this.getAttribute('aria-label') || 'Section';
                     history.pushState({ sectionId: targetId }, linkText, targetId);
-
-                    // Show the target section
                     showSection(targetId);
                 }
 
-
-                // Close mobile menu if open
-                if (!mobileMenu.classList.contains('hidden')) {
+                // Close mobile menu if open after clicking any navigating link
+                 if (isMobile && !mobileMenu.classList.contains('hidden')) {
                     mobileMenu.classList.add('hidden');
-                }
+                 }
             });
         });
 
 
+        // Handle mobile menu button click (toggles the main mobile menu visibility)
         mobileMenuButton.addEventListener('click', function() {
             mobileMenu.classList.toggle('hidden');
         });
@@ -1771,8 +1834,46 @@
             const state = event.state;
 
             if (state && state.sectionId) {
-                // If the state has a sectionId, show that section
-                showSection(state.sectionId);
+                 // If the state has a sectionId, check if it's the first section of a group
+                 let groupToShow = null;
+                 let isStandalone = true;
+
+                 for (const groupKey in sectionGroups) {
+                     if (sectionGroups[groupKey][0] === state.sectionId) {
+                         groupToShow = sectionGroups[groupKey];
+                         isStandalone = false;
+                         break;
+                     }
+                 }
+
+                 if (groupToShow) {
+                     // If it's the first section of a group, show all sections in that group
+                     sections.forEach(sec => {
+                         sec.style.display = 'none';
+                         sec.classList.remove('active-section');
+                     });
+                      groupToShow.forEach(id => {
+                          const sectionElement = document.querySelector(id);
+                          if (sectionElement) {
+                              sectionElement.style.display = 'block'; // Group sections are block
+                              sectionElement.classList.add('active-section');
+                          }
+                      });
+                      // Scroll to the first section in the group when navigating back/forward
+                      const firstSectionElement = document.querySelector(groupToShow[0]);
+                      if(firstSectionElement) {
+                           firstSectionElement.scrollIntoView({ behavior: 'smooth' });
+                      }
+
+                 } else if (document.querySelector(state.sectionId)) {
+                      // If the state sectionId is a standalone section (or not the first in a group), just show that section
+                     showSection(state.sectionId);
+                 } else {
+                      // If state sectionId doesn't match any section, default to hero
+                     showSection('#hero-section');
+                 }
+
+
             } else {
                 // If the state is null (e.g., initial page load before any pushState)
                 // or doesn't have a sectionId, default to the hero section
