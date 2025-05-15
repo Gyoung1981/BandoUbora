@@ -7,17 +7,26 @@
     <meta name="description" content="부산 동래 반도 유보라 공식 랜딩페이지. 탁월한 입지, 혁신적인 설계, 프리미엄 시스템으로 완성되는 새로운 라이프스타일을 경험하세요. 사업개요, 입지환경, 단지설계, 평면도, 방문예약 정보 제공.">
     <meta property="og:title" content="동래 반도유보라-새로운 라이프의 시작">
     <meta property="og:description" content="부산 동래 반도 유보라 공식 랜딩페이지. 탁월한 입지, 혁신적인 설계, 프리미엄 시스템으로 완성되는 새로운 라이프스타일을 경험하세요. 사업개요, 입지환경, 단지설계, 평면도, 방문예약 정보 제공.">
-    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" as="style">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" as="style">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap">
+
+     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@800&display=swap" as="style">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@800&display=swap">
+
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" as="style">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
-        /* Google Font - Noto Sans KR */
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
-         /* Google Font - Nanum Gothic ExtraBold */
-        @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@800&display=swap'); /* ExtraBold */
-        /* Google Font - Do Hyeon for UBORA */
-        @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
-
-
         /* Custom CSS Variables */
         :root {
             --primary-color: #2c4b54; /* Dark Teal */
@@ -1621,6 +1630,29 @@
             }
         }
 
+        // Function to show a specific section and hide others
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('section');
+            sections.forEach(sec => {
+                sec.style.display = 'none';
+                sec.classList.remove('active-section');
+            });
+
+            const targetSection = document.querySelector(sectionId);
+            if (targetSection) {
+                if (targetSection.id === 'hero-section') {
+                    targetSection.style.display = 'flex'; // Hero section uses flex
+                } else {
+                    targetSection.style.display = 'block'; // Other sections use block
+                }
+                targetSection.classList.add('active-section');
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            updateHeaderColor(); // Update header color based on the newly active section
+        }
+
+
         // Update the sections variable to include the new section
         const sections = document.querySelectorAll('section');
         // Select all navigation links, including those in the mobile menu
@@ -1628,7 +1660,9 @@
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
 
-        // Define the groups of sections for mobile navigation
+        // Define the groups of sections for mobile navigation (This grouping logic might need adjustment or removal
+        // depending on how you want mobile menu to behave with History API. For now, keeping it
+        // but the primary navigation logic will be handled by showSection and History API)
         const sectionGroups = {
             business: ['overview', 'location', 'premium-features'],
             complex: ['design', 'units', 'system-section'],
@@ -1638,20 +1672,29 @@
         };
 
 
-        // Hide all sections except the hero on load and set hero as active
+        // Initial load handling
         document.addEventListener('DOMContentLoaded', function() {
+            // Hide all sections initially
             sections.forEach(sec => {
                 sec.style.display = 'none'; // Hide all
                 sec.classList.remove('active-section'); // Ensure no active class initially
             });
 
-            const heroSection = document.getElementById('hero-section');
-            if (heroSection) {
-                heroSection.style.display = 'flex'; // Show hero
-                heroSection.classList.add('active-section'); // Set hero as active
+            // Check if there's a hash in the URL on load
+            const initialHash = window.location.hash;
+            if (initialHash && document.querySelector(initialHash)) {
+                // If hash exists and corresponds to a section, show that section
+                showSection(initialHash);
+                 // Replace the initial history state with the current section's state
+                 history.replaceState({ sectionId: initialHash }, '', initialHash);
+            } else {
+                // Otherwise, show the hero section
+                showSection('#hero-section');
+                // Push the hero section state to history as the initial state
+                // Use window.location.pathname to avoid adding '#' to the initial URL
+                history.pushState({ sectionId: '#hero-section' }, 'Home', window.location.pathname);
             }
 
-            updateHeaderColor(); // Set initial header color based on hero being active
 
             // Initialize floor plan display
             const floorPlanButtons = document.querySelectorAll('#floor-plans .type-button');
@@ -1685,128 +1728,34 @@
         // Handle clicks on navigation links (both desktop and mobile)
         navLinks.forEach(link => {
             link.addEventListener('click', function(event) {
-                // Check if the screen is in mobile view (less than 768px)
-                const isMobile = window.matchMedia('(max-width: 767px)').matches;
-
                 event.preventDefault(); // Prevent default anchor link behavior
 
-                // Handle the home link '#' separately
-                if (this.getAttribute('href') === '#') {
-                     const heroSection = document.getElementById('hero-section');
-                     sections.forEach(sec => {
-                        sec.style.display = 'none';
-                        sec.classList.remove('active-section');
-                     });
-                     if (heroSection) {
-                         heroSection.style.display = 'flex';
-                         heroSection.classList.add('active-section');
-                         heroSection.scrollIntoView({ behavior: 'smooth' });
-                     }
-                     updateHeaderColor();
-                     if (isMobile && !mobileMenu.classList.contains('hidden')) {
-                         mobileMenu.classList.add('hidden');
-                     }
-                     return; // Stop further processing for the home link
+                const targetId = this.getAttribute('href');
+
+                // Special handling for the logo link (href="#")
+                if (targetId === '#') {
+                    // Show the hero section
+                    showSection('#hero-section');
+                    // Push the hero section state to history
+                    history.pushState({ sectionId: '#hero-section' }, 'Home', window.location.pathname); // Use pathname for clean URL
+                } else {
+                     // Get the text content of the link for the history state title (optional)
+                    const linkText = this.textContent || this.getAttribute('aria-label') || 'Section'; // Fallback title
+
+                    // Use pushState to add the new section to the browser history
+                    // State object: { sectionId: targetId } - stores the ID of the section to show
+                    // Title: linkText - browser might use this (often ignored)
+                    // URL: targetId - updates the URL in the address bar with the hash
+                    history.pushState({ sectionId: targetId }, linkText, targetId);
+
+                    // Show the target section
+                    showSection(targetId);
                 }
 
-                const targetId = this.getAttribute('href');
-                const targetSection = document.querySelector(targetId);
 
-                if (isMobile) {
-                    const groupKey = this.getAttribute('data-group');
-
-                    // Check if the clicked link is the "자세히 알아보기" button on mobile
-                    const isHeroLearnMoreButton = this.classList.contains('hero-learn-more') && this.getAttribute('href') === '#overview';
-
-                    if (groupKey || isHeroLearnMoreButton) { // If it's a mobile menu link with data-group OR the hero learn more button
-                        const sectionsToDisplay = isHeroLearnMoreButton ? sectionGroups['business'] : sectionGroups[groupKey];
-
-                        if (sectionsToDisplay && sectionsToDisplay.length > 0) {
-                            // Hide all sections first
-                            sections.forEach(sec => {
-                                sec.style.display = 'none';
-                                sec.classList.remove('active-section');
-                            });
-
-                            // Show all sections in the selected group
-                            sectionsToDisplay.forEach(sectionId => {
-                                const sectionElement = document.getElementById(sectionId);
-                                if (sectionElement) {
-                                    if (sectionElement.classList.contains('hero-section')) {
-                                        sectionElement.style.display = 'flex';
-                                    } else {
-                                        sectionElement.style.display = 'block';
-                                    }
-                                    sectionElement.classList.add('active-section');
-                                }
-                            });
-
-                            // Scroll to the first section in the group
-                            const firstSectionInGroup = document.getElementById(sectionsToDisplay[0]);
-                            if (firstSectionInGroup) {
-                                firstSectionInGroup.scrollIntoView({ behavior: 'smooth' });
-                            }
-
-                            // Update header color based on the first section in the group
-                             if (sectionsToDisplay[0] === 'hero-section') {
-                                 document.body.classList.add('hero-active');
-                             } else {
-                                 document.body.classList.remove('hero-active');
-                             }
-                        }
-                    } else if (targetSection) { // If it's a link without data-group (like hero contact button)
-                         // Hide all sections
-                        sections.forEach(sec => {
-                            sec.style.display = 'none';
-                            sec.classList.remove('active-section');
-                        });
-
-                        // Show the target section and set it as active
-                        if (targetSection.classList.contains('hero-section')) {
-                            targetSection.style.display = 'flex';
-                        } else {
-                            targetSection.style.display = 'block';
-                        }
-                        targetSection.classList.add('active-section');
-
-                        // Scroll to the target section
-                        targetSection.scrollIntoView({ behavior: 'smooth' });
-
-                        // Update header color based on the target section
-                         if (targetId === '#hero-section') {
-                             document.body.classList.add('hero-active');
-                         } else {
-                             document.body.classList.remove('hero-active');
-                         }
-                    }
-
-                    // Always close mobile menu after a click on mobile
-                    if (!mobileMenu.classList.contains('hidden')) {
-                        mobileMenu.classList.add('hidden');
-                    }
-
-                } else {
-                    // Desktop behavior: Show only the target section and scroll
-                    if (targetSection) {
-                         // Hide all sections
-                        sections.forEach(sec => {
-                            sec.style.display = 'none';
-                            sec.classList.remove('active-section');
-                        });
-
-                        // Show the target section and set it as active
-                        if (targetSection.classList.contains('hero-section')) {
-                            targetSection.style.display = 'flex';
-                        } else {
-                            targetSection.style.display = 'block';
-                        }
-                        targetSection.classList.add('active-section');
-
-                        // Scroll to the target section
-                        targetSection.scrollIntoView({ behavior: 'smooth' });
-
-                        // Header color update on desktop is handled by the Intersection Observer
-                    }
+                // Close mobile menu if open
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
                 }
             });
         });
@@ -1814,6 +1763,21 @@
 
         mobileMenuButton.addEventListener('click', function() {
             mobileMenu.classList.toggle('hidden');
+        });
+
+        // Handle browser back/forward button presses
+        window.addEventListener('popstate', function(event) {
+            // The popstate event's state property contains the history entry's state object
+            const state = event.state;
+
+            if (state && state.sectionId) {
+                // If the state has a sectionId, show that section
+                showSection(state.sectionId);
+            } else {
+                // If the state is null (e.g., initial page load before any pushState)
+                // or doesn't have a sectionId, default to the hero section
+                showSection('#hero-section');
+            }
         });
 
 
@@ -1864,7 +1828,11 @@
             } else if (index < 0) {
                 index = totalSlides - 1; // Loop back to the last slide
             }
-            document.getElementById('background-slides').style.transform = `translateX(${-index * 100}%)`;
+            // Only apply transform if not on mobile (screen width >= 768px)
+            if (window.matchMedia('(min-width: 768px)').matches) {
+                 document.getElementById('background-slides').style.transform = `translateX(${-index * 100}%)`;
+            }
+
             slideNavBtns.forEach((btn, i) => {
                 if (i === index) {
                     btn.classList.add('active');
@@ -1877,14 +1845,14 @@
 
         // Auto slide
          setInterval(() => {
-             // Only auto-slide if the hero section is currently active
-             if (document.getElementById('hero-section').classList.contains('active-section')) {
+             // Only auto-slide if the hero section is currently active AND on desktop
+             if (document.getElementById('hero-section').classList.contains('active-section') && window.matchMedia('(min-width: 768px)').matches) {
                 showSlide(currentSlide + 1);
              }
          }, 5000); // Change slide every 5 seconds
 
         // Initial slide display
-        showSlide(0);
+        // showSlide(0); // Initial slide is now handled by the DOMContentLoaded popstate logic
 
 
         // Intersection Observer for Header Color Change on Scroll
