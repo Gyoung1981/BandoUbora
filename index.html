@@ -1,0 +1,1915 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>동래 반도UBORA-새로운 라이프의 시작</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Google Font - Noto Sans KR */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+         /* Google Font - Nanum Gothic ExtraBold */
+        @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@800&display=swap'); /* ExtraBold */
+        /* Google Font - Do Hyeon for UBORA */
+        @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
+
+
+        /* Custom CSS Variables */
+        :root {
+            --primary-color: #2c4b54; /* Dark Teal */
+            --primary-light: #e0f2f7; /* Lighter shade of primary for backgrounds (Sky-like) */
+            --secondary-color: #ff9800; /* Brighter and more intense orange */
+            --text-dark: #333333;
+            --text-light: #666666;
+            --background-light: #f5f5f5;
+            --hover-dark-bg: rgba(0, 0, 0, 0.1); /* Dark background for hover */
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Base body styles */
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6; /* Default line height */
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        /* Adjust line height and letter spacing for main text content */
+        .text-gray-600,
+        .content p,
+        .content ul li {
+            line-height: 1.8; /* Adjusted line height slightly */
+            letter-spacing: 0.05em; /* Adjusted letter spacing */
+        }
+
+
+        /* Keyframes for background animation (optional, can be combined with slide transition) */
+         @keyframes backgroundPan {
+            0% { background-position: 0% center; }
+            100% { background-position: 100% center; }
+        }
+
+        /* --- Animation Keyframes --- */
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Keyframes for subtle pulse animation */
+        @keyframes subtlePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        /* --- End Animation Keyframes --- */
+
+
+        /* Hero section container */
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            min-height: 600px;
+            display: flex; /* Keep initial display */
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-align: center;
+            overflow: hidden; /* Hide overflowing slides */
+            background-color: var(--primary-color); /* Fallback background color */
+        }
+
+        /* Container for sliding background images */
+        .background-slides {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex; /* Arrange slides in a row */
+            transition: transform 1s ease-in-out; /* Smooth sliding transition */
+        }
+
+        /* Individual background slide */
+        .background-slide {
+            min-width: 100%; /* Each slide takes full width of the container */
+            height: 100%;
+            background-size: cover; /* Cover the entire area */
+            background-position: center center; /* Center the image */
+            display: flex; /* Use flex to center content if needed, although content is separate */
+            align-items: center;
+            justify-content: center;
+            background-color: var(--primary-color); /* Fallback background color for individual slides */
+             /* Temporary border for debugging */
+            /* border: 5px solid yellow; */
+        }
+
+         /* Ensure content is above the background slides */
+        .hero-content {
+            position: relative;
+            z-index: 10; /* Higher z-index than background slides */
+        }
+
+        /* Apply animation to hero text elements */
+        .hero-content h1 {
+            animation: fadeInUp 2s ease-in-out infinite alternate; /* Duration changed to 2s, timing function to ease-in-out */
+            opacity: 0; /* Start hidden */
+        }
+
+        .hero-content p {
+            animation: fadeInUp 2s ease-in-out infinite alternate; /* Duration changed to 2s, timing function to ease-in-out */
+            animation-delay: 0.3s; /* Keep delay */
+            opacity: 0; /* Start hidden */
+        }
+
+        /* Removed fadeInUp animation from buttons in the general rule */
+        /* .hero-content .btn-primary,
+        .hero-content .btn-secondary {
+             animation: fadeInUp 2s ease-in-out infinite alternate;
+             animation-delay: 0.6s;
+             opacity: 0;
+        } */
+
+
+        /* Section title underline effect */
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--secondary-color);
+        }
+
+        /* Center the underline for centered titles */
+        .center-title::after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Primary button styling */
+        /* This style applies to all .btn-primary unless overridden */
+        .btn-primary {
+            background-color: var(--secondary-color);
+            color: #fff;
+            padding: 0.75rem 1.5rem; /* Default padding */
+            border-radius: 0.25rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            background-color: #f57c00; /* Darker shade for hover */
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Secondary button styling */
+        /* This style applies to all .btn-secondary unless overridden */
+        .btn-secondary {
+            background-color: transparent;
+            color: #fff;
+            padding: 0.75rem 1.5rem; /* Default padding */
+            border-radius: 0.25rem;
+            font-weight: 500;
+            border: 2px solid #fff;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255,255,255,0.2); /* Semi-transparent white */
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Feature card hover effect */
+        .feature-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Facility card image zoom effect on hover */
+        .facility-card {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .facility-card img {
+            transition: all 0.5s ease;
+        }
+
+        .facility-card:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Timeline styling */
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: var(--secondary-color);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+
+        .timeline-container {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            background-color: white;
+            border: 4px solid var(--secondary-color);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .left {
+            left: 0;
+        }
+
+        .right {
+            left: 50%;
+        }
+
+        .left::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            right: 30px;
+            border: medium solid white;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent white;
+        }
+
+        .right::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            left: 30px;
+            border: medium solid white;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent white transparent transparent;
+        }
+
+        .right::after {
+            left: -10px;
+        }
+
+        .content {
+            padding: 20px 30px;
+            background-color: white;
+            position: relative;
+            border-radius: 6px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Unit type button styling */
+        .type-button {
+            padding: 0.75rem 1.5rem;
+            background-color: #f3f4f6; /* Light gray */
+            border-radius: 0.25rem;
+            font-weight: 500;
+            margin: 0 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block; /* Ensure buttons are inline */
+        }
+
+        .type-button.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        /* Unit type content visibility */
+        .type-content {
+            display: none;
+        }
+
+        .type-content.active {
+            display: block;
+        }
+
+        /* Image gallery grid layout */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media screen and (max-width: 768px) {
+            .image-gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .timeline::after {
+                left: 31px;
+            }
+
+            .timeline-container {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+
+            .timeline-container::before {
+                left: 60px;
+                border: medium solid white;
+                border-width: 10px 10px 10px 0;
+                border-color: transparent white transparent transparent;
+            }
+
+            .left::after, .right::after {
+                left: 15px;
+            }
+
+            .right {
+                left: 0%;
+            }
+        }
+
+        /* Header transition on scroll (handled by JS) */
+        #header {
+            transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Add box-shadow to transition */
+        }
+
+        /* Header background on landing page */
+        body.hero-active #header {
+            background-color: transparent;
+            box-shadow: none; /* No shadow on hero section */
+        }
+        /* Header background on other sections */
+        body:not(.hero-active) #header {
+            background-color: white; /* Set to white for all sections except hero */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow on other sections */
+        }
+
+        /* Header link color on landing page */
+        body.hero-active #header .nav-link {
+            color: white;
+        }
+
+        /* Header link color on other sections */
+        body:not(.hero-active) #header .nav-link {
+            color: var(--text-dark); /* Darker color */
+        }
+
+         /* Header logo styling */
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            /* color: white; /* Default color for "반도" and "동래" - Removed */
+            transition: transform 0.3s ease; /* Add transition for smooth hover effect */
+            text-decoration: none; /* Remove underline from logo link */
+        }
+
+        /* Container for logo image and text */
+        .logo-content {
+            display: flex;
+            flex-direction: column; /* Stack image and text vertically */
+            align-items: center; /* Center content horizontally */
+        }
+
+        /* Logo image styling */
+        .nav-logo img {
+            height: 40px; /* Adjust height as needed to make it bigger */
+            vertical-align: middle;
+            margin: 0 auto 4px auto; /* Center image and add space below */
+            filter: brightness(0) invert(1); /* Make image white by default */
+            transition: filter 0.3s ease; /* Smooth filter transition */
+        }
+
+        /* Logo text styling */
+        .nav-logo .logo-text {
+            font-size: 1rem; /* Adjust font size for "동래 반도" */
+            font-weight: 500; /* Medium font weight */
+            letter-spacing: -0.02em; /* Slightly tighter letter spacing */
+            text-align: center; /* Center text */
+            color: #000040; /* Set color to darker navy blue */
+            transition: color 0.3s ease;
+        }
+
+         /* UBORA text styling */
+        .logo-ubora {
+            font-family: 'Do Hyeon', sans-serif; /* Apply Do Hyeon font */
+            font-size: 2.2rem; /* Slightly increased size for prominence */
+            font-weight: 800; /* Ensure extra bold - Do Hyeon is inherently bold */
+            margin-bottom: -0.2em; /* Slightly negative margin to pull closer */
+            line-height: 1; /* Adjust line height */
+            color: #000040; /* Set color to darker navy blue */
+            transition: color 0.3s ease;
+            letter-spacing: 0.3em; /* Increased letter spacing for wider look */
+        }
+
+
+        /* Hover effect for the logo */
+        .nav-logo:hover {
+            transform: scale(1.05); /* Slightly increase size on hover */
+        }
+
+        /* Removed hero-active specific color rules for logo text */
+        /* body:not(.hero-active) #header .nav-logo {
+            color: var(--text-dark);
+        } */
+
+         /* Header logo image color on landing page */
+        body.hero-active #header .nav-logo img {
+            filter: brightness(0) invert(1); /* Make image white */
+        }
+
+        /* Header logo image color on other sections */
+        body:not(.hero-active) #header .nav-logo img {
+            filter: none; /* Original image color */
+        }
+
+        /* Removed hero-active specific color rules for UBORA text */
+        /* body:not(.hero-active) #header .logo-ubora {
+            color: var(--text-dark);
+        } */
+
+
+        /* Navigation link base styles */
+        .nav-link {
+            transition: transform 0.3s ease, color 0.3s ease; /* Removed background-color from transition */
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            display: inline-block;
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+        }
+
+        /* Hover effect for standard navigation links (inside the main nav ul) */
+        #header nav ul li .nav-link:hover {
+            transform: translateY(-2px); /* Further reduced movement */
+            /* Removed background-color: rgba(255, 255, 255, 0.1); */
+        }
+
+        /* Hover color when on the hero section (body has hero-active) for standard links */
+        body.hero-active #header nav ul li .nav-link:hover {
+            color: var(--text-dark); /* Change hover color to dark text color */
+        }
+
+        /* Hover color when NOT on the hero section (body does NOT have hero-active) for standard links */
+        body:not(.hero-active) #header nav ul li .nav-link:hover {
+            color: var(--secondary-color); /* Change hover color to secondary color */
+        }
+
+
+        /* Keep hover effect for the button and phone number as -8px */
+        #header .btn-primary:hover {
+             transform: translateY(-8px); /* Apply the same translateY effect */
+             /* Background color and shadow already defined in .btn-primary:hover */
+        }
+
+        #header .nav-phone {
+             display: flex;
+             align-items: center;
+             margin-left: 1.5rem; /* Space between button and phone number */
+             color: white; /* Default color on hero section */
+             text-decoration: none;
+             transition: color 0.3s ease, transform 0.3s ease; /* Removed background-color from transition */
+             padding: 0.25rem 0.5rem; /* Match nav link padding */
+             border-radius: 0.25rem; /* Match nav link border radius */
+        }
+
+        /* Set header phone number color when not on hero section */
+        body:not(.hero-active) #header .nav-phone {
+            color: var(--text-dark); /* Match header link color */
+        }
+
+
+        #header .nav-phone:hover {
+             transform: translateY(-8px); /* Match nav link hover effect */
+             /* Removed background-color: rgba(255, 255, 255, 0.1); */
+        }
+
+        /* Adjust hover colors for button and phone number based on hero-active class - keep these */
+        body.hero-active #header .btn-primary:hover,
+        body.hero-active #header .nav-phone:hover {
+             color: var(--text-dark); /* Change hover color to dark text color */
+        }
+
+        body:not(.hero-active) #header .btn-primary:hover,
+        body:not(.hero-active) #header .nav-phone:hover {
+             color: var(--secondary-color); /* Change hover color to secondary color */
+        }
+
+
+        /* --- Section Visibility Control --- */
+        /* Hide all sections by default */
+        section {
+            display: none;
+        }
+
+        /* Display the active section */
+        section.active-section {
+            display: block; /* Default display for most sections */
+             /* Add padding to the top of sections to prevent content from being hidden by the fixed header */
+            padding-top: 200px; /* Increased padding */
+        }
+
+        /* Special display for the hero section when active */
+        .hero-section.active-section {
+            display: flex;
+            padding-top: 0; /* Remove padding for the hero section */
+        }
+        /* --- End Section Visibility Control --- */
+
+        /* Style for the phone number container in the contact section */
+        .phone-number-box {
+            background-color: #fff;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Center content horizontally */
+            margin-top: 1rem; /* Space above the box */
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add transition */
+        }
+
+        .phone-number-box:hover {
+             transform: translateY(-5px); /* Slight lift on hover */
+             box-shadow: 0 8px 20px rgba(0,0,0,0.15); /* Slightly stronger shadow on hover */
+        }
+
+        .phone-number-box a {
+            font-size: 1.5rem; /* Larger font size */
+            font-weight: bold;
+            color: var(--primary-color); /* Use primary color for the number by default */
+            text-decoration: none; /* Remove underline */
+            display: flex; /* Use flex for icon and text alignment */
+            align-items: center;
+            /* Add transition for color change */
+            transition: color 0.3s ease;
+        }
+
+        /* Style for the phone number in the contact section when not on the hero section */
+        body:not(.hero-active) .phone-number-box a {
+            color: var(--text-dark); /* Match header link color */
+        }
+
+
+        .phone-number-box a i {
+            margin-right: 0.75rem; /* Space between icon and number */
+            color: var(--secondary-color); /* Color for the phone icon */
+             font-size: 1.8rem; /* Larger icon size */
+        }
+
+        /* --- Navigation Phone Number Styling --- */
+        /* Moved .nav-phone base styles up to combine with hover */
+        /* Removed background-color from hover transition */
+
+        .nav-phone i {
+            margin-right: 0.25rem; /* Space between icon and number */
+            font-size: 1.1rem; /* Icon size */
+            color: var(--secondary-color); /* Orange color for icon */
+        }
+
+        .nav-phone .small-number {
+            font-size: 0.8rem; /* Smaller font size for (010) */
+            font-weight: normal;
+            margin-right: 0.1rem; /* Space between (010) and the rest */
+        }
+
+        .nav-phone .large-number {
+            font-size: 1.1rem; /* Larger font size for the rest of the number */
+            font-weight: bold;
+        }
+
+
+        /* Mobile menu nav link adjustments */
+        #mobile-menu .nav-link {
+             padding: 0.75rem 1rem; /* Adjust padding for mobile list items */
+             font-size: 1.1rem; /* Slightly larger font size */
+             letter-spacing: normal; /* Reset letter spacing */
+             transform: none; /* Remove translateY effect in mobile */
+             color: white; /* White text for main links */
+             border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Subtle separator */
+        }
+
+        #mobile-menu .nav-link:hover {
+             background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent white background on hover */
+             color: var(--secondary-color); /* Secondary color on hover */
+             transform: none; /* Ensure no transform on hover in mobile */
+        }
+
+         /* Mobile menu button adjustments */
+        #mobile-menu .btn-primary {
+             padding: 0.75rem 1rem; /* Adjust padding for mobile list item */
+             font-size: 1rem; /* Keep consistent font size */
+             font-weight: 500;
+             transform: none; /* Remove translateY effect in mobile */
+             display: block; /* Make it a block element in mobile menu */
+             width: calc(100% - 2rem); /* Adjust width to fit padding */
+             margin: 0.5rem auto; /* Center the button */
+             text-align: center; /* Center the text */
+             background-color: var(--secondary-color); /* Orange background */
+             color: white; /* White text */
+             border-radius: 0.25rem; /* Rounded corners */
+             transition: all 0.3s ease;
+        }
+
+        #mobile-menu .btn-primary:hover {
+             transform: none; /* Ensure no transform on hover in mobile */
+             background-color: #f57c00; /* Darker orange on hover */
+        }
+
+        /* Dropdown menu styling */
+        .dropdown {
+            position: relative;
+            display: inline-block; /* Allow dropdown to be inline with other menu items */
+        }
+
+        /* Mobile menu dropdown content - initially hidden */
+        #mobile-menu .dropdown-content {
+            display: none; /* Hide dropdown content by default in mobile */
+            position: static; /* Remove absolute positioning */
+            box-shadow: none; /* Remove shadow */
+            background-color: transparent; /* Ensure transparent background for sub-menu container */
+            padding-left: 1rem; /* Indent sub-items */
+            /* Add max-height and overflow for scrollability */
+            max-height: 0; /* Start with 0 height */
+            overflow-y: hidden; /* Hide overflow initially */
+            transition: max-height 0.3s ease-in-out; /* Smooth transition for height */
+        }
+
+        /* Mobile menu dropdown content when active */
+        #mobile-menu .dropdown-content.active-dropdown {
+             display: block; /* Show dropdown content when active */
+             max-height: 300px; /* Set max height for scrollability (adjust as needed) */
+             overflow-y: auto; /* Enable vertical scrolling */
+             border-top: 1px solid rgba(255, 255, 255, 0.1); /* Add a separator above the sub-menu */
+             padding-top: 0.5rem; /* Add some padding at the top */
+        }
+
+
+        #mobile-menu .dropdown-content a {
+            padding: 0.5rem 1.5rem; /* Adjust padding and indent */
+            font-size: 1rem; /* Smaller font size than main links */
+            font-weight: 400; /* Normal font weight */
+            color: #ccc; /* Lighter gray for sub-menu links */
+        }
+
+        #mobile-menu .dropdown > .nav-link::after {
+            display: none; /* Hide arrow in mobile menu */
+        }
+
+
+        /* --- End Navigation Button Styling in Header --- */
+
+        /* Style for the new "선착순 계약중" text */
+        .hero-subtitle {
+            font-size: 1.5rem; /* Adjust font size as needed */
+            font-weight: 700; /* Bold font weight */
+            color: var(--secondary-color); /* Use secondary color for emphasis */
+            margin-top: 1rem; /* Space above this text */
+            margin-bottom: 2rem; /* Space below this text */
+        }
+
+        /* Specific styling for the primary button within the hero section */
+        .hero-section .btn-primary {
+            padding: 1.2rem 2.5rem; /* Increased padding for larger button */
+            font-size: 1.2rem; /* Slightly larger font size for the text */
+        }
+
+        /* Specific styling for the secondary button within the hero section */
+        .hero-section .btn-secondary {
+            padding: 1.2rem 2.5rem; /* Match primary button padding for consistent size */
+            font-size: 1.2rem; /* Match primary button font size */
+        }
+
+        /* Footer styling */
+        footer .container {
+            display: flex; /* Use flexbox for layout */
+            justify-content: space-between; /* Space out the content and phone number */
+            align-items: center; /* Vertically align items */
+            flex-direction: column; /* Stack items vertically on small screens */
+            text-align: center; /* Center text on small screens */
+        }
+
+        @media (min-width: 768px) {
+            footer .container {
+                flex-direction: row; /* Arrange items horizontally on medium+ screens */
+                text-align: left; /* Align text to the left on medium+ screens */
+            }
+        }
+
+        /* Footer text content wrapper */
+        .footer-text-content {
+            flex-grow: 1; /* Allow text content to take available space */
+            margin-bottom: 1rem; /* Add space below text content on small screens */
+        }
+
+        @media (min-width: 768px) {
+            .footer-text-content {
+                margin-bottom: 0; /* Remove bottom margin on medium+ screens */
+                margin-right: 2rem; /* Add space to the right of text content */
+            }
+        }
+
+        /* Footer phone number styling */
+        .footer-phone {
+            font-size: 2.5rem; /* Large font size for phone number */
+            font-weight: bold;
+            color: var(--secondary-color); /* Use secondary color for emphasis */
+            white-space: nowrap; /* Prevent wrapping */
+            display: flex; /* Use flex to align icon and text */
+            align-items: center; /* Vertically center icon and text */
+        }
+
+        /* Style the anchor tag within the footer phone number */
+        .footer-phone a {
+             color: inherit; /* Inherit color from parent (.footer-phone) */
+             text-decoration: none; /* Remove underline */
+             display: flex; /* Use flex to align icon and text */
+             align-items: center; /* Vertically center icon and text */
+        }
+
+        .footer-phone i {
+            margin-right: 0.5rem; /* Space between icon and number */
+            font-size: 2rem; /* Adjust icon size */
+        }
+
+        /* Custom style for the large SMS button */
+        .btn-sms-large {
+            background-color: var(--secondary-color); /* Use secondary color */
+            color: #fff; /* White text */
+            padding: 1.5rem 3rem; /* Larger padding */
+            border-radius: 9999px; /* Fully rounded */
+            font-weight: 700; /* Bold font */
+            font-size: 1.5rem; /* Larger font size */
+            transition: all 0.3s ease;
+            display: inline-block; /* Ensure it behaves like a button */
+            text-align: center; /* Center text */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2); /* Add shadow */
+        }
+
+        .btn-sms-large:hover {
+            background-color: #f57c00; /* Darker shade on hover */
+            transform: translateY(-5px); /* Lift on hover */
+            box-shadow: 0 15px 25px rgba(0,0,0,0.3); /* Larger shadow on hover */
+        }
+
+
+        /* --- Mobile Specific Styles --- */
+        @media (max-width: 767px) { /* Target screens smaller than 768px (standard mobile breakpoint in Tailwind) */
+            /* Hide the phone number in the header on mobile */
+            #header .nav-phone {
+                display: none;
+            }
+
+            /* Mobile Menu Styles */
+            #mobile-menu {
+                background-color: #333; /* Dark background color */
+                color: white; /* Default text color for the menu */
+                box-shadow: 0 44px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+            }
+
+            /* Style for top-level mobile menu links */
+            #mobile-menu .nav-link {
+                 padding: 0.75rem 1rem; /* Adjust padding for mobile list items */
+                 font-size: 1.1rem; /* Slightly larger font size */
+                 letter-spacing: normal; /* Reset letter spacing */
+                 transform: none; /* Remove translateY effect in mobile */
+                 color: white; /* White text for main links */
+                 border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Subtle separator */
+            }
+
+            /* Style for sub-menu links within dropdowns */
+            #mobile-menu .dropdown-content a {
+                padding: 0.5rem 1.5rem; /* Adjust padding and indent */
+                font-size: 1rem; /* Smaller font size than main links */
+                font-weight: 400; /* Normal font weight */
+                color: #ccc; /* Lighter gray for sub-menu links */
+            }
+
+            /* Hover effect for all links within the mobile menu */
+            #mobile-menu .nav-link:hover,
+            #mobile-menu .dropdown-content a:hover {
+                background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent white background on hover */
+                color: var(--secondary-color); /* Secondary color on hover */
+                transform: none; /* Ensure no transform on hover in mobile */
+            }
+
+             /* Ensure the last item in the mobile menu list doesn't have a bottom border */
+             #mobile-menu ul li:last-child .nav-link,
+             #mobile-menu ul li:last-child .mobile-call-button { /* Also target the new call button */
+                 border-bottom: none;
+             }
+
+             /* Style for the new mobile call button */
+             #mobile-menu .mobile-call-button {
+                 display: flex; /* Use flexbox to align icon and text */
+                 align-items: center; /* Vertically center */
+                 justify-content: center; /* Center horizontally */
+                 padding: 0.75rem 1rem; /* Padding */
+                 margin: 1rem auto; /* Center the button with margin */
+                 width: calc(100% - 2rem); /* Match width of other items */
+                 background-color: var(--secondary-color); /* Orange background */
+                 color: white; /* White text */
+                 border-radius: 0.5rem; /* More rounded corners for button look */
+                 font-size: 1.2rem; /* Larger font size for prominence */
+                 font-weight: 700; /* Bold font */
+                 text-decoration: none; /* Remove underline */
+                 transition: all 0.3s ease;
+                 animation: subtlePulse 1.5s infinite ease-in-out; /* Apply pulse animation */
+             }
+
+             #mobile-menu .mobile-call-button i {
+                 margin-right: 0.5rem; /* Space between icon and text */
+                 font-size: 1.5rem; /* Larger icon size */
+             }
+
+             #mobile-menu .mobile-call-button:hover {
+                 background-color: #f57c00; /* Darker orange on hover */
+                 transform: scale(1.02); /* Slight scale on hover */
+             }
+
+            /* Change mobile menu button color when NOT on hero section */
+            body:not(.hero-active) #header #mobile-menu-button i {
+                color: var(--text-dark); /* Set color to dark text color */
+            }
+
+            /* Change mobile menu link colors and font weight when NOT on hero section */
+            body:not(.hero-active) #mobile-menu .nav-link {
+                color: white; /* Set main links to white */
+                font-weight: 700; /* Make main links bold */
+            }
+
+            body:not(.hero-active) #mobile-menu .dropdown-content a {
+                 color: white; /* Set sub-menu links to white */
+                 font-weight: 400; /* Keep sub-menu links normal weight */
+            }
+
+            /* Apply specific animation to hero section buttons on mobile */
+            .hero-section .flex-col.md\:flex-row a { /* Target the anchor tags within the button container */
+                 animation: subtlePulse 1.5s infinite ease-in-out; /* Apply subtle pulse animation */
+                 opacity: 1 !important; /* Ensure buttons are visible */
+            }
+
+
+        }
+        /* --- End Mobile Specific Styles --- */
+
+        /* Desktop Dropdown Specific Styles (min-width: 768px) */
+        @media (min-width: 768px) {
+            /* Ensure dropdown content is hidden by default on desktop */
+            #header .dropdown-content {
+                display: none;
+                position: absolute;
+                /* Background color is white as requested */
+                background-color: white; /* Default white background */
+                min-width: 160px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 10; /* Increased z-index */
+                border-radius: 0.25rem;
+                overflow: hidden;
+                top: 100%; /* Position below the parent link */
+                left: 0; /* Align to the left of the parent */
+                margin-top: 0; /* Remove margin-top for closest positioning */
+                padding-top: 0.5rem; /* Add padding-top to create a hover buffer zone */
+            }
+
+            /* Show the dropdown content on hover */
+            #header .dropdown:hover > .dropdown-content {
+                display: block; /* Show the dropdown */
+            }
+
+            /* Style for dropdown links */
+            #header .dropdown-content a {
+                /* Text color for contrast on white background */
+                color: var(--text-dark); /* Default dark text color */
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+                transition: background-color 0.3s ease;
+            }
+
+            /* Hover effect for dropdown links */
+            #header .dropdown-content a:hover {
+                /* Hover background color */
+                background-color: var(--background-light);
+            }
+
+             /* Adjust main nav link padding when dropdown is present */
+            #header .dropdown > .nav-link {
+                 padding-right: 1.5rem; /* Add space for a potential arrow icon */
+                 position: relative; /* Needed for positioning the arrow */
+            }
+
+            /* Optional: Add a small arrow to indicate dropdown */
+            #header .dropdown > .nav-link::after {
+                 content: '\f107'; /* Font Awesome down arrow icon */
+                 font-family: 'Font Awesome 5 Free';
+                 font-weight: 900;
+                 position: absolute;
+                 right: 0.5rem;
+                 top: 50%;
+                 transform: translateY(-50%);
+                 font-size: 0.8rem;
+                 transition: transform 0.3s ease;
+                 /* Arrow color for contrast on white background */
+                 color: var(--text-dark); /* Default dark color */
+            }
+
+            /* Rotate arrow on hover */
+            #header .dropdown:hover > .nav-link::after {
+                 transform: translateY(-50%) rotate(180deg);
+            }
+
+            /* Change header link color and arrow color to white when body has hero-active class */
+            body.hero-active #header .dropdown > .nav-link {
+                color: white; /* Header link color white */
+            }
+
+            body.hero-active #header .dropdown > .nav-link::after {
+                color: white; /* Arrow color white */
+            }
+
+            /* Change dropdown content background color and apply transparency when body has hero-active class */
+            body.hero-active #header .dropdown-content {
+                 /* 연파란색에 가까운 색상 (RGB 173, 216, 230)에 60% 투명도 적용 */
+                 background-color: rgba(173, 216, 230, 0.6);
+            }
+
+            /* Change dropdown link text color to white when body has hero-active class */
+            body.hero-active #header .dropdown-content a {
+                color: white; /* Set text color to white */
+            }
+
+            /* Ensure dropdown link hover background is visible on the light transparent background */
+             body.hero-active #header .dropdown-content a:hover {
+                 background-color: rgba(255, 255, 255, 0.5); /* Use a semi-transparent white hover effect */
+             }
+        }
+
+
+    </style>
+</head>
+<body>
+    <header id="header" class="fixed top-0 left-0 w-full z-50 px-6 py-4 bg-transparent">
+        <div class="container mx-auto flex items-center justify-between">
+            <a href="#" class="z-10 nav-link-home nav-logo">
+                <div class="logo-content">
+                     <span class="logo-ubora">UBORA</span>
+                     <span class="logo-text">동래 반도</span>
+                 </div>
+            </a>
+
+            <div class="hidden md:flex items-center flex-grow justify-center">
+                <nav>
+                    <ul class="flex space-x-8">
+                        <li class="dropdown">
+                            <a href="#overview" class="hover:text-gray-300 transition nav-link">사업안내</a>
+                            <ul class="dropdown-content">
+                                 <li><a href="#overview" class="nav-link">사업개요</a></li>
+                                 <li><a href="#location" class="nav-link">입지환경</a></li>
+                                 <li><a href="#premium-features" class="nav-link">Premium</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                             <a href="#design" class="hover:text-gray-300 transition nav-link">단지안내</a>
+                             <ul class="dropdown-content">
+                                 <li><a href="#design" class="nav-link">단지설계</a></li>
+                                 <li><a href="#units" class="nav-link">동호수배치도</a></li>
+                                 <li><a href="#system-section" class="nav-link">시스템</a></li>
+                             </ul>
+                         </li>
+                        <li class="dropdown">
+                             <a href="#floor-plans" class="hover:text-gray-300 transition nav-link">주택형안내</a>
+                             <ul class="dropdown-content">
+                                 <li><a href="#floor-plans" class="nav-link">평면도</a></li>
+                                 <li><a href="#facilities" class="nav-link">인테리어</a></li>
+                             </ul>
+                         </li>
+                        <li><a href="#how-to-get-here" class="hover:text-gray-300 transition nav-link">오시는길</a></li>
+                        <li><a href="#contact" class="btn-primary ml-8 nav-link">방문예약</a></li>
+                        <li>
+                             <a href="tel:010-5957-1400" class="nav-phone">
+                                  <i class="fas fa-phone-alt"></i>
+                                  <span>
+                                      <span class="small-number">(010)</span>
+                                      <span class="large-number">5957-1400</span>
+                                      </span>
+                             </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <button class="md:hidden text-white text-2xl z-10" id="mobile-menu-button">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-white absolute top-full left-0 w-full shadow-lg z-40">
+            <ul class="container mx-auto py-4">
+                <li><a href="#overview" class="block py-2 px-4 hover:bg-gray-100 nav-link" data-group="business">사업안내</a></li>
+                <li><a href="#design" class="block py-2 px-4 hover:bg-gray-100 nav-link" data-group="complex">단지안내</a></li>
+                <li><a href="#floor-plans" class="block py-2 px-4 hover:bg-gray-100 nav-link" data-group="unit">주택형안내</a></li>
+                <li><a href="#how-to-get-here" class="block py-2 px-4 hover:bg-gray-100 font-medium nav-link" data-group="location">오시는길</a></li>
+                <li><a href="#contact" class="block py-2 px-4 hover:bg-gray-100 font-medium nav-link" data-group="contact">방문예약</a></li>
+                <li>
+                    <a href="tel:010-5957-1400" class="mobile-call-button">
+                         <i class="fas fa-phone-alt"></i>
+                         <span>010-5957-1400</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <section class="hero-section" id="hero-section">
+        <div class="background-slides" id="background-slides">
+            <div class="background-slide" style="background-image: url('https://ubora-dongnae.com/images/mvis-bg02.jpg');"></div>
+            <div class="background-slide" style="background-image: url('https://ubora-dongnae.com/images/mvis-bg02.jpg');"></div>
+            <div class="background-slide" style="background-image: url('https://ubora-dongnae.com/images/mvis-bg02.jpg');"></div>
+        </div>
+
+        <div class="hero-content container mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-12 leading-tight">도시의 쉼표,<br>삶의 가치를 높이는 공간</h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">탁월한 입지와 혁신적인 설계로 완성되는<br>반도 UBORA 동래에서 새로운 라이프스타일을 경험하세요</p>
+            <div class="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-4 mt-40">
+                <a href="#contact" class="btn-primary nav-link">방문예약하기</a>
+                <a href="#overview" class="btn-secondary nav-link hero-learn-more">자세히 알아보기</a>
+            </div>
+        </div>
+
+        <div class="slide-nav">
+            <div class="slide-nav-btn active" data-slide="0"></div>
+            <div class="slide-nav-btn" data-slide="1"></div>
+            <div class="slide-nav-btn" data-slide="2"></div>
+        </div>
+    </section>
+
+    <section id="overview" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold mb-8 text-left">사업개요</h2>
+            <p class="text-gray-600 mb-12">새로운 주거 트렌드를 선도하는 반도 UBORA 동래는 자연과 도시의 조화로운 공존을 추구합니다</p>
+
+            <div class="grid grid-cols-1 gap-10">
+                <div class="col-span-1">
+                    <img src="https://ubora-dongnae.com/images/sub11.jpg?ver=5" alt="[반도 UBORA 동래 조감도]" class="w-full h-auto rounded-lg shadow-lg aspect-video object-cover" onerror="this.onerror=null; this.src='https://placehold.co/1200x675/E0F2F7/333333?text=Image+Not+Available';">
+                </div>
+
+                <div class="col-span-1 grid grid-cols-2 md:grid-cols-2 gap-4 mt-8">
+                    <div class="p-4 bg-primary-light rounded-lg shadow-md">
+                        <p class="font-medium text-primary-color">사업명</p>
+                        <p class="text-gray-800">부산광역시 동래구 낙민동 공동주택 신축공사</p>
+                    </div>
+                    <div class="p-4 bg-primary-light rounded-lg shadow-md">
+                        <p class="font-medium text-primary-color">대지위치</p>
+                        <p class="text-gray-800">부산광역시 동래구 낙민동 76-1번지 일원</p>
+                    </div>
+                    <div class="p-4 bg-primary-light rounded-lg shadow-md">
+                        <p class="font-medium text-primary-color">대지면적</p>
+                        <p class="text-gray-800">9,906.40㎡(2996.69py)</p>
+                    </div>
+                    <div class="p-4 bg-primary-light rounded-lg shadow-md">
+                        <p class="font-medium text-primary-color">연면적</p>
+                        <p class="text-gray-800">67,987.3512㎡</p>
+                    </div>
+                    <div class="p-4 bg-primary-light rounded-lg shadow-md">
+                        <p class="font-medium text-primary-color">세대수</p>
+                        <p class="text-gray-800">총 400세대</p>
+                    </div>
+                    <div class="p-4 bg-primary-light rounded-lg shadow-md">
+                        <p class="font-medium text-primary-color">건축규모</p>
+                        <p class="text-gray-800">지하3층~지상42층, 3개동</p>
+                    </div>
+                     <div class="p-4 bg-primary-light rounded-lg shadow-md">
+                        <p class="font-medium text-primary-color">타입</p>
+                        <p class="text-gray-800">84㎡A, 84㎡B, 84㎡C</p>
+                    </div>
+                     <div class="p-4 bg-primary-light rounded-lg shadow-md">
+                        <p class="font-medium text-primary-color">용적률 / 건폐율</p>
+                        <p class="text-gray-800">475.25% / 27.63%</p>
+                    </div>
+                </div>
+            </div>
+             </div>
+    </section>
+
+    <section id="location" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold mb-12">입지 환경</h2>
+            <p class="text-gray-600 mb-12">도시의 중심에서 누리는 편리한 생활</p>
+
+            <img src="https://ubora-dongnae.com/images/sub13-1.jpg?ver=10" alt="[입지 환경 지도]" class="w-full h-auto rounded-lg shadow-lg mb-12" onerror="this.onerror=null; this.src='https://placehold.co/1200x675/E0F2F7/333333?text=Image+Not+Available';">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div>
+                    <h3 class="text-2xl font-bold mb-6">우수한 교통망</h3>
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="rounded-full bg-blue-100 w-12 h-12 flex items-center justify-center mr-4 flex-shrink-0">
+                                <i class="fas fa-subway text-blue-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-1">지하철</h4>
+                                <p class="text-gray-600">4호선 낙민역 도보 5분<br>1호선 교대역 도보 17분<br>동해선 동래역 도보 3분</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="rounded-full bg-green-100 w-12 h-12 flex items-center justify-center mr-4 flex-shrink-0">
+                                <i class="fas fa-bus text-green-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-1">버스</h4>
+                                <p class="text-gray-600">다양한 노선 이용 가능</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="rounded-full bg-red-100 w-12 h-12 flex items-center justify-center mr-4 flex-shrink-0">
+                                <i class="fas fa-road text-red-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-1">도로망</h4>
+                                <p class="text-gray-600">중앙대로, 충렬대로 인접, 원동IC 접근성 우수</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="text-2xl font-bold mt-10 mb-6">생활 편의성</h3>
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="rounded-full bg-purple-100 w-12 h-12 flex items-center justify-center mr-4 flex-shrink-0">
+                                <i class="fas fa-shopping-cart text-purple-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-1">자연환경 및 생활체육시설 및 전통시장</h4>
+                                <p class="text-gray-600">온천천, 동래구생활체육복합센터(27년예정), 수민어울공원, 제2체육센터(28년 예정), 동래시장, 수안인정시장</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="rounded-full bg-yellow-100 w-12 h-12 flex items-center justify-center mr-4 flex-shrink-0">
+                                <i class="fas fa-utensils text-yellow-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-1">먹거리</h4>
+                                <p class="text-gray-600">다양한 맛집과 카페가 밀집한 트렌디한 상권</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="rounded-full bg-blue-100 w-12 h-12 flex items-center justify-center mr-4 flex-shrink-0">
+                                <i class="fas fa-school text-blue-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-1">교육 환경</h4>
+                                <p class="text-gray-600">동래구 명문 초/중/고교 및 학원가 밀집 지역</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
+                        <div class="bg-white p-3 rounded-lg shadow text-center">
+                            <p class="text-gray-800 font-bold">지하철</p>
+                            <p class="text-gray-600">도보 3분</p>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg shadow text-center">
+                            <p class="text-gray-800 font-bold">학교</p>
+                            <p class="text-600">도보 5분</p>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg shadow text-center">
+                            <p class="text-gray-800 font-bold">온천천</p>
+                            <p class="text-gray-600"> 도보 3분</p>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg shadow text-center">
+                            <p class="text-gray-800 font-bold">생활<br>체육센터</p>
+                            <p class="text-gray-600">도보 3분</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-16 bg-white p-8 rounded-lg shadow-md">
+                <h3 class="text-2xl font-bold mb-6 text-center">미래가치를 높이는 개발 호재</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="p-4 border-l-4 border-yellow-500 bg-yellow-50 rounded-lg">
+                        <h4 class="font-bold text-lg mb-2">도시정비사업 진행중</h4>
+                        <p class="text-gray-600">수안재건축, 낙민재건축, 복산재개발 등 약 1만여세대 도시정비사업활발이 진행중<br>만덕-센텀 지하고속도로 개통</p>
+                    </div>
+                    <div class="p-4 border-l-4 border-green-500 bg-green-50 rounded-lg">
+                        <h4 class="font-bold text-lg mb-2">생활체육시설</h4>
+                        <p class="text-gray-600">동래구 첫 어린이복합문화공간 '들락날락'<br>수민공원 힐링 라이프<br>제2국민체육센터 건립<br>돌봄센터, 대형도서관 건립</p>
+                    </div>
+                    <div class="p-4 border-l-4 border-blue-500 bg-blue-50 rounded-lg">
+                        <h4 class="font-bold text-lg mb-2">명문학군 및 전통시장</h4>
+                        <p class="text-gray-600">낙민초, 동래고 등 전통 있는 명문 교육환경 전통시장 상권 활성화 및 주거 만족도 향상</p>
+                    </div>
+                </div>
+                 <img src="https://ubora-dongnae.com/images/sub13-2.jpg?ver=10" alt="[개발 호재 이미지]" class="w-full h-auto rounded-lg shadow-lg mt-6" onerror="this.onerror=null; this.src='https://placehold.co/1200x675/E0F2F7/333333?text=Image+Not+Available';">
+            </div>
+        </div>
+    </section>
+
+    <section id="premium-features" class="py-20 bg-white">
+         <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold mb-8 text-left">Premium</h2>
+            <img src="https://ubora-dongnae.com/images/sub14.jpg?ver=9" alt="[정기영 섹션 이미지]" class="w-full h-auto rounded-lg shadow-lg mt-12" onerror="this.onerror=null; this.src='https://placehold.co/1200x675/E0F2F7/333333?text=Image+Not+Available';">
+            </div>
+    </section>
+
+
+    <section id="design" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold mb-8 text-left">단지설계</h2>
+            <p class="section-title text-gray-600 mb-12">차별화된 설계로 완성되는 프리미엄 라이프</p>
+
+            <img src="https://ubora-dongnae.com/images/sub21.jpg?ver=9" alt="[단지 설계 이미지]" class="w-full h-auto rounded-lg shadow-lg mb-8" onerror="this.onerror=null; this.src='https://placehold.co/1200x675/E0F2F7/333333?text=Image+Not+Available';">
+
+            <div class="space-y-4 mb-16">
+                <h3 class="2xl font-bold mb-6 text-left">단지 설계</h3>
+                <div class="space-y-4">
+                    <div class="flex items-start">
+                        <div class="text-yellow-500 mr-3 mt-1">
+                            <i class="fas fa-check-circle text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg">남향 위주 배치</h4>
+                            <p class="text-gray-600">전 세대 남향 또는 남동향 배치로 일조권 및 조망권 극대화</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="text-yellow-500 mr-3 mt-1">
+                            <i class="fas fa-check-circle text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg">중앙 정원</h4>
+                            <p class="text-gray-600">단지 중앙에 위치한 4계절 테마 정원과 산책로</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="text-yellow-500 mr-3 mt-1">
+                            <i class="fas fa-check-circle text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg">높은 천정고(2.35M)</h4>
+                            <p class="text-gray-600">높은 천정고(2.35M), 우물형 천정(2.5M)로 개방감 극대화</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="text-yellow-500 mr-3 mt-1">
+                                <i class="fas fa-check-circle text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">넉넉한 주차 공간</h4>
+                                <p class="text-gray-600">세대당 평균 1.24대의 주차공간 확보, 전기차 충전소 구비</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+    <section id="units" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold mb-8 text-left">동호수배치도</h2>
+            <p class="section-title text-gray-600 mb-12">다양한 라이프스타일을 위한 최적의 공간</p>
+
+            <img src="https://ubora-dongnae.com/images/sub22.jpg?ver=4" alt="[동호수배치도 이미지]" class="w-full h-auto rounded-lg shadow-lg mb-8" onerror="this.onerror=null; this.src='https://placehold.co/1200x675/E0F2F7/333333?text=Image+Not+Available';">
+
+        </div>
+    </section>
+
+    <section id="system-section" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+             <h2 class="text-3xl font-bold mb-8 text-left">시스템</h2>
+             <img src="https://ubora-dongnae.com/images/sub24.jpg?ver=2" alt="[시스템 이미지]" class="w-full h-auto rounded-lg shadow-lg mb-8" onerror="this.onerror=null; this.src='https://placehold.co/1200x675/E0F2F7/333333?text=Image+Not+Available';">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+                 <div class="order-2 md:order-1">
+                    <h3 class="text-2xl font-bold mb-6">최첨단 시스템</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="text-blue-500 mr-3 mt-1">
+                                <i class="fas fa-wifi text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">IoT 홈네트워크</h4>
+                                <p class="text-gray-600">스마트폰 앱으로 조명, 난방, 가스 등 원격 제어</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="text-blue-500 mr-3 mt-1">
+                                <i class="fas fa-lock text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">스마트 보안 시스템</h4>
+                                <p class="text-gray-600">세대 현관 스마트 도어락, 공동현관 얼굴 인식 시스템, CCTV 설치</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="text-blue-500 mr-3 mt-1">
+                                <i class="fas fa-car text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">주차 관제 시스템</h4>
+                                <p class="text-gray-600">차량 번호 인식, 주차 위치 확인, 전기차 충전 시설</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="text-blue-500 mr-3 mt-1">
+                                <i class="fas fa-tint text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">에너지 절감 시스템</h4>
+                                <p class="text-gray-600">고효율 LED 조명, 일괄 소등 스위치, 대기 전력 차단 시스템</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <div class="order-1 md:order-2">
+                     </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="floor-plans" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold mb-8 text-left">평면도</h2>
+            <p class="section-title text-gray-600 mb-12">다양한 주택형의 평면도를 확인하세요</p>
+
+            <div class="flex justify-center mb-8 space-x-4">
+                <button class="type-button active" data-type="plan-a">84㎡A</button>
+                <button class="type-button" data-type="plan-b">84㎡B</button>
+                <button class="type-button" data-type="plan-c">84㎡C</button>
+            </div>
+
+            <div id="floor-plan-images">
+                <img id="plan-a" src="https://ubora-dongnae.com/images/sub51-1.jpg?ver=2" alt="[84㎡A 평면도 이미지]" class="w-full h-auto rounded-lg shadow-lg type-content active" onerror="this.onerror=null; this.src='https://placehold.co/1200x800/FF9800/FFFFFF?text=84%E3%8E%A1A+Floor+Plan';">
+
+                <img id="plan-b" src="https://ubora-dongnae.com/images/sub51-2.jpg?ver=2" alt="[84㎡B 평면도 이미지]" class="w-full h-auto rounded-lg shadow-lg type-content" onerror="this.onerror=null; this.src='https://placehold.co/1200x800/2C4B54/FFFFFF?text=84%E3%8E%A1B+Floor+Plan';">
+
+                <img id="plan-c" src="https://ubora-dongnae.com/images/sub51-3.jpg?ver=2" alt="[84㎡C 평면도 이미지]" class="w-full h-auto rounded-lg shadow-lg type-content" onerror="this.onerror=null; this.src='https://placehold.co/1200x800/E0F2F7/333333?text=84%E3%8E%A1C+Floor+Plan';">
+            </div>
+
+            </div>
+    </section>
+
+
+    <section id="facilities" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="mt-16">
+                 <h3 class="text-2xl font-bold mb-6 text-center">인테리어 상세</h3>
+                 <p class="text-gray-600 mb-12 text-center">각 타입별 인테리어 컨셉 및 마감재 정보를 확인하세요.</p>
+
+                 <div class="flex justify-center mb-8 space-x-4">
+                    <button class="type-button active" data-type="interior-a">84㎡A</button>
+                    <button class="type-button" data-type="interior-b">84㎡B</button>
+                    </div>
+
+                 <div id="interior-images">
+                     <div id="interior-a" class="image-gallery type-content active">
+                         <img src="https://ubora-dongnae.com/images/sub52_1_1.jpg?ver=2" alt="[84㎡A 인테리어 뷰 1]" class="w-full h-auto rounded-lg shadow" onerror="this.onerror=null; this.src='https://placehold.co/300x200/E0F2F7/333333?text=84%E3%8E%A1A+Interior+1';">
+                         <img src="https://ubora-dongnae.com/images/sub52_1_2.jpg?ver=2" alt="[84㎡A 인테리어 뷰 2]" class="w-full h-auto rounded-lg shadow" onerror="this.onerror=null; this.src='https://placehold.co/300x200/E0F2F7/333333?text=84%E3%8E%A1A+Interior+2';">
+                         <img src="https://ubora-dongnae.com/images/sub52_1_3.jpg?ver=2" alt="[84㎡A 인테리어 뷰 3]" class="w-full h-auto rounded-lg shadow" onerror="this.onerror=null; this.src='https://placehold.co/300x200/E0F2F7/333333?text=84%E3%8E%A1A+Interior+3';">
+                         <img src="https://ubora-dongnae.com/images/sub52_1_4.jpg?ver=2" alt="[84㎡A 인테리어 뷰 4]" class="w-full h-auto rounded-lg shadow" onerror="this.onerror=null; this.src='https://placehold.co/300x200/E0F2F7/333333?text=84%E3%A1A+Interior+4';">
+                     </div>
+
+                     <div id="interior-b" class="image-gallery type-content">
+                         <img src="https://ubora-dongnae.com/images/sub52_2_1.jpg?ver=2" alt="[84㎡B 인테리어 뷰 1]" class="w-full h-auto rounded-lg shadow" onerror="this.onerror=null; this.src='https://placehold.co/300x200/2C4B54/FFFFFF?text=84%E3%8E%A1B+Interior+1';">
+                         <img src="https://ubora-dongnae.com/images/sub52_2_2.jpg?ver=2" alt="[84㎡B 인테리어 뷰 2]" class="w-full h-auto rounded-lg shadow" onerror="this.onerror=null; this.src='https://placehold.co/300x200/2C4B54/FFFFFF?text=84%E3%8E%A1B+Interior+2';">
+                         <img src="https://ubora-dongnae.com/images/sub52_2_3.jpg?ver=2" alt="[84㎡B 인테리어 뷰 3]" class="w-full h-auto rounded-lg shadow" onerror="this.onerror=null; this.src='https://placehold.co/300x200/2C4B54/FFFFFF?text=84%E3%8E%A1B+Interior+3';">
+                         <img src="https://ubora-dongnae.com/images/sub52_2_4.jpg?ver=2" alt="[84㎡B 인테리어 뷰 4]" class="w-full h-auto rounded-lg shadow" onerror="this.onerror=null; this.src='https://placehold.co/300x200/2C4B54/FFFFFF?text=84%E3%8E%A1B+Interior+4';">
+                     </div>
+
+                      </div>
+             </div>
+        </div>
+    </section>
+
+    <section id="schedule" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold mb-8 text-center">분양 일정</h2>
+            <p class="section-title center-title text-gray-600 mb-12 max-w-3xl mx-auto">놓치지 마세요! 중요한 분양 일정</p>
+
+            <div class="timeline">
+                <div class="timeline-container left">
+                    <div class="content">
+                        <h3 class="font-bold text-xl mb-2">모집 공고</h3>
+                        <p class="text-gray-600">2025년 5월 15일</p>
+                    </div>
+                </div>
+                <div class="timeline-container right">
+                    <div class="content">
+                        <h3 class="font-bold text-xl mb-2">견본주택 개관</h3>
+                        <p class="text-gray-600">2025년 5월 17일</p>
+                    </div>
+                </div>
+                <div class="timeline-container left">
+                    <div class="content">
+                        <h3 class="font-bold text-xl mb-2">특별 공급 청약</h3>
+                        <p class="text-gray-600">2025년 5월 20일</p>
+                    </div>
+                </div>
+                <div class="timeline-container right">
+                    <div class="content">
+                        <h3 class="font-bold text-xl mb-2">1순위 청약</h3>
+                        <p class="text-gray-600">2025년 5월 21일</p>
+                    </div>
+                </div>
+                <div class="timeline-container left">
+                    <div class="content">
+                        <h3 class="font-bold text-xl mb-2">2순위 청약</h3>
+                        <p class="text-gray-600">2025년 5월 22일</p>
+                    </div>
+                </div>
+                <div class="timeline-container right">
+                    <div class="content">
+                        <h3 class="font-bold text-xl mb-2">당첨자 발표</h3>
+                        <p class="text-gray-600">2025년 5월 29일</p>
+                    </div>
+                </div>
+                <div class="timeline-container left">
+                    <div class="content">
+                        <h3 class="font-bold text-xl mb-2">정당 계약 체결</h3>
+                        <p class="text-gray-600">2025년 6월 10일 ~ 6월 12일</p>
+                    </div>
+                </div>
+                 <div class="timeline-container right">
+                    <div class="content">
+                        <h3 class="font-bold text-xl mb-2">입주 시작</h3>
+                        <p class="text-gray-600">2026년 11월 예정</p>
+                    </div>
+                </div>
+                </div>
+             <p class="text-center text-gray-600 mt-12">※ 상기 일정은 사업 추진 과정에서 변경될 수 있습니다.</p>
+        </div>
+    </section>
+
+    <section id="contact" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold mb-8 text-center">방문 예약 및 문의</h2>
+            <p class="section-title center-title text-gray-600 mb-12 max-w-3xl mx-auto">반도 UBORA 동래에 대해 더 자세히 알아보세요</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div>
+                    <h3 class="text-2xl font-bold mb-6">문자(SMS) 방문 예약</h3>
+                    <p class="text-gray-600 mb-6">아래 버튼을 눌러 문자 메시지로 방문 예약을 신청하실 수 있습니다.</p>
+                    <div class="flex justify-center md:justify-start">
+                         <a href="sms:010-5957-1400?body=반도 UBORA 동래 방문 예약 신청합니다.%0A이름: %0A전화번호: %0A방문인원: %0A방문예정시각: " class="btn-sms-large">문자(SMS) 방문 예약</a>
+                    </div>
+                </div>
+                <div>
+                     <h3 class="2xl font-bold mb-6">대표 전화</h3>
+                     <div class="phone-number-box">
+                         <a href="tel:010-5957-1400">
+                             <i class="fas fa-phone-volume"></i>
+                             010-5957-1400
+                         </a>
+                     </div>
+                     <p class="text-gray-600 mt-4 text-center">궁금한 점이 있으시면 언제든지 전화주세요.</p>
+                 </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-to-get-here" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold mb-8 text-center">오시는 길</h2>
+            <p class="section-title center-title text-gray-600 mb-12 max-w-3xl mx-auto">모델하우스 방문 정보를 확인하세요</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+                <div>
+                    <h3 class="text-2xl font-bold mb-6">모델하우스 정보</h3>
+                    <div class="space-y-6 mb-8">
+                        <div class="flex items-center">
+                            <div class="rounded-full bg-blue-100 w-12 h-12 flex items-center justify-center mr-4 flex-shrink-0">
+                                <i class="fas fa-map-marker-alt text-blue-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-1">주소</h4>
+                                <p class="text-gray-600">부산광역시 해운대구 우동 1129-7번지</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="rounded-full bg-green-100 w-12 h-12 flex items-center justify-center mr-4 flex-shrink-0">
+                                <i class="fas fa-clock text-green-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-1">운영 시간</h4>
+                                <p class="text-gray-600">오전 10시 ~ 오후 6시 (주말 및 공휴일 정상 운영)</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="rounded-full bg-red-100 w-12 h-12 flex items-center justify-center mr-4 flex-shrink-0">
+                                <i class="fas fa-phone-alt text-red-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-1">대표 전화</h4>
+                                 <a href="tel:010-5957-1400" class="text-gray-600 hover:underline">010-5957-1400</a>
+                            </div>
+                        </div>
+                         <div class="flex items-center">
+                            <div class="rounded-full bg-purple-100 w-12 h-12 flex items-center justify-center mr-4 flex-shrink-0">
+                                <i class="fas fa-sms text-purple-500"></i> </div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-1">문자 상담</h4>
+                                <a href="sms:010-5957-1400" class="text-gray-600 hover:underline">010-5957-1400 문자상담 가능</a>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+                 <div class="flex justify-center md:justify-start items-start">
+                     <a href="https://map.naver.com/p/search/부산광역시 해운대구 우동 1129-7번지" class="btn-primary px-6 py-3 rounded-full text-lg font-semibold shadow-md hover:shadow-lg transition duration-300" target="_blank">네이버 지도로 위치보기</a>
+                 </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white py-10">
+        <div class="container mx-auto px-6">
+            <div class="footer-text-content">
+                <h3 class="text-xl font-bold mb-2">반도 UBORA 동래</h3>
+                <p class="text-gray-400">새로운 라이프의 시작</p>
+                <div class="flex justify-center md:justify-start space-x-6 mb-6">
+                    <a href="#" class="text-gray-400 hover:text-white transition">개인정보 처리방침</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">이용약관</a>
+                </div>
+                <div class="text-gray-500 text-sm">
+                    <p>시행사: 주식회사 에쓰앤디 | 시공사: (주)반도건설</p>
+                    <p>주소: 부산광역시 동래구 낙민동 76-1번지 일원</p>
+                    <p>대표전화: 010-5957-1400</p>
+                    <p>Made by 정기영</p> <p>&copy; 2025 반도 UBORA 동래. All rights reserved.</p>
+                </div>
+            </div>
+            <div class="footer-phone">
+                <a href="tel:010-5957-1400">
+                    <i class="fas fa-phone-alt"></i>
+                    010-5957-1400
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Function to handle header color change based on the active section
+        function updateHeaderColor() {
+            const header = document.getElementById('header');
+            const heroSection = document.getElementById('hero-section'); // Use the ID
+            const isHeroActive = heroSection.classList.contains('active-section');
+
+            if (isHeroActive) {
+                document.body.classList.add('hero-active');
+            } else {
+                document.body.classList.remove('hero-active');
+            }
+        }
+
+        // Update the sections variable to include the new section
+        const sections = document.querySelectorAll('section');
+        // Select all navigation links, including those in the mobile menu
+        const navLinks = document.querySelectorAll('.nav-link, .nav-link-home');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        // Define the groups of sections for mobile navigation
+        const sectionGroups = {
+            business: ['overview', 'location', 'premium-features'],
+            complex: ['design', 'units', 'system-section'],
+            unit: ['floor-plans', 'facilities'],
+            location: ['how-to-get-here'],
+            contact: ['contact']
+        };
+
+
+        // Hide all sections except the hero on load and set hero as active
+        document.addEventListener('DOMContentLoaded', function() {
+            sections.forEach(sec => {
+                sec.style.display = 'none'; // Hide all
+                sec.classList.remove('active-section'); // Ensure no active class initially
+            });
+
+            const heroSection = document.getElementById('hero-section');
+            if (heroSection) {
+                heroSection.style.display = 'flex'; // Show hero
+                heroSection.classList.add('active-section'); // Set hero as active
+            }
+
+            updateHeaderColor(); // Set initial header color based on hero being active
+
+            // Initialize floor plan display
+            const floorPlanButtons = document.querySelectorAll('#floor-plans .type-button');
+            const floorPlanImages = document.querySelectorAll('#floor-plan-images .type-content');
+
+            const defaultPlanButton = document.querySelector('#floor-plans .type-button.active');
+            if (defaultPlanButton) {
+                const defaultPlanType = defaultPlanButton.getAttribute('data-type');
+                const defaultPlanImage = document.getElementById(defaultPlanType);
+                if (defaultPlanImage) {
+                    floorPlanImages.forEach(img => img.classList.remove('active')); // Hide others
+                    defaultPlanImage.classList.add('active');
+                }
+            }
+
+            // Initialize interior display
+            const interiorButtons = document.querySelectorAll('#facilities .type-button');
+            const interiorImageContainers = document.querySelectorAll('#interior-images .type-content');
+
+            const defaultInteriorButton = document.querySelector('#facilities .type-button.active');
+            if (defaultInteriorButton) {
+                const defaultInteriorType = defaultInteriorButton.getAttribute('data-type');
+                const defaultInteriorImageContainer = document.getElementById(defaultInteriorType);
+                 if (defaultInteriorImageContainer) {
+                    interiorImageContainers.forEach(container => container.classList.remove('active')); // Hide others
+                    defaultInteriorImageContainer.classList.add('active');
+                }
+            }
+        });
+
+        // Handle clicks on navigation links (both desktop and mobile)
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(event) {
+                // Check if the screen is in mobile view (less than 768px)
+                const isMobile = window.matchMedia('(max-width: 767px)').matches;
+
+                event.preventDefault(); // Prevent default anchor link behavior
+
+                // Handle the home link '#' separately
+                if (this.getAttribute('href') === '#') {
+                     const heroSection = document.getElementById('hero-section');
+                     sections.forEach(sec => {
+                        sec.style.display = 'none';
+                        sec.classList.remove('active-section');
+                     });
+                     if (heroSection) {
+                         heroSection.style.display = 'flex';
+                         heroSection.classList.add('active-section');
+                         heroSection.scrollIntoView({ behavior: 'smooth' });
+                     }
+                     updateHeaderColor();
+                     if (isMobile && !mobileMenu.classList.contains('hidden')) {
+                         mobileMenu.classList.add('hidden');
+                     }
+                     return; // Stop further processing for the home link
+                }
+
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+
+                if (isMobile) {
+                    const groupKey = this.getAttribute('data-group');
+
+                    // Check if the clicked link is the "자세히 알아보기" button on mobile
+                    const isHeroLearnMoreButton = this.classList.contains('hero-learn-more') && this.getAttribute('href') === '#overview';
+
+                    if (groupKey || isHeroLearnMoreButton) { // If it's a mobile menu link with data-group OR the hero learn more button
+                        const sectionsToDisplay = isHeroLearnMoreButton ? sectionGroups['business'] : sectionGroups[groupKey];
+
+                        if (sectionsToDisplay && sectionsToDisplay.length > 0) {
+                            // Hide all sections first
+                            sections.forEach(sec => {
+                                sec.style.display = 'none';
+                                sec.classList.remove('active-section');
+                            });
+
+                            // Show all sections in the selected group
+                            sectionsToDisplay.forEach(sectionId => {
+                                const sectionElement = document.getElementById(sectionId);
+                                if (sectionElement) {
+                                    if (sectionElement.classList.contains('hero-section')) {
+                                        sectionElement.style.display = 'flex';
+                                    } else {
+                                        sectionElement.style.display = 'block';
+                                    }
+                                    sectionElement.classList.add('active-section');
+                                }
+                            });
+
+                            // Scroll to the first section in the group
+                            const firstSectionInGroup = document.getElementById(sectionsToDisplay[0]);
+                            if (firstSectionInGroup) {
+                                firstSectionInGroup.scrollIntoView({ behavior: 'smooth' });
+                            }
+
+                            // Update header color based on the first section in the group
+                             if (sectionsToDisplay[0] === 'hero-section') {
+                                 document.body.classList.add('hero-active');
+                             } else {
+                                 document.body.classList.remove('hero-active');
+                             }
+                        }
+                    } else if (targetSection) { // If it's a link without data-group (like hero contact button)
+                         // Hide all sections
+                        sections.forEach(sec => {
+                            sec.style.display = 'none';
+                            sec.classList.remove('active-section');
+                        });
+
+                        // Show the target section and set it as active
+                        if (targetSection.classList.contains('hero-section')) {
+                            targetSection.style.display = 'flex';
+                        } else {
+                            targetSection.style.display = 'block';
+                        }
+                        targetSection.classList.add('active-section');
+
+                        // Scroll to the target section
+                        targetSection.scrollIntoView({ behavior: 'smooth' });
+
+                        // Update header color based on the target section
+                         if (targetId === '#hero-section') {
+                             document.body.classList.add('hero-active');
+                         } else {
+                             document.body.classList.remove('hero-active');
+                         }
+                    }
+
+                    // Always close mobile menu after a click on mobile
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+
+                } else {
+                    // Desktop behavior: Show only the target section and scroll
+                    if (targetSection) {
+                         // Hide all sections
+                        sections.forEach(sec => {
+                            sec.style.display = 'none';
+                            sec.classList.remove('active-section');
+                        });
+
+                        // Show the target section and set it as active
+                        if (targetSection.classList.contains('hero-section')) {
+                            targetSection.style.display = 'flex';
+                        } else {
+                            targetSection.style.display = 'block';
+                        }
+                        targetSection.classList.add('active-section');
+
+                        // Scroll to the target section
+                        targetSection.scrollIntoView({ behavior: 'smooth' });
+
+                        // Header color update on desktop is handled by the Intersection Observer
+                    }
+                }
+            });
+        });
+
+
+        mobileMenuButton.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+
+        // JavaScript for Unit Type Tabs (Floor Plans)
+        const floorPlanButtons = document.querySelectorAll('#floor-plans .type-button');
+        const floorPlanImages = document.querySelectorAll('#floor-plan-images .type-content');
+
+        floorPlanButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons and content
+                floorPlanButtons.forEach(btn => btn.classList.remove('active'));
+                floorPlanImages.forEach(img => img.classList.remove('active'));
+
+                // Add active class to the clicked button and corresponding content
+                const targetType = this.getAttribute('data-type');
+                this.classList.add('active');
+                document.getElementById(targetType).classList.add('active');
+            });
+        });
+
+        // JavaScript for Unit Type Tabs (Interior)
+        const interiorButtons = document.querySelectorAll('#facilities .type-button');
+        const interiorImageContainers = document.querySelectorAll('#interior-images .type-content');
+
+        interiorButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons and content
+                interiorButtons.forEach(btn => btn.classList.remove('active'));
+                interiorImageContainers.forEach(container => container.classList.remove('active'));
+
+                // Add active class to the clicked button and corresponding content
+                const targetType = this.getAttribute('data-type');
+                this.classList.add('active');
+                document.getElementById(targetType).classList.add('active');
+            });
+        });
+
+
+         // JavaScript for Hero Section Background Slider
+        const backgroundSlides = document.querySelectorAll('.background-slide');
+        const slideNavBtns = document.querySelectorAll('.slide-nav-btn');
+        let currentSlide = 0;
+        const totalSlides = backgroundSlides.length;
+
+        function showSlide(index) {
+            if (index >= totalSlides) {
+                index = 0; // Loop back to the first slide
+            } else if (index < 0) {
+                index = totalSlides - 1; // Loop back to the last slide
+            }
+            document.getElementById('background-slides').style.transform = `translateX(${-index * 100}%)`;
+            slideNavBtns.forEach((btn, i) => {
+                if (i === index) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            currentSlide = index;
+        }
+
+        // Auto slide
+         setInterval(() => {
+             // Only auto-slide if the hero section is currently active
+             if (document.getElementById('hero-section').classList.contains('active-section')) {
+                showSlide(currentSlide + 1);
+             }
+         }, 5000); // Change slide every 5 seconds
+
+        // Initial slide display
+        showSlide(0);
+
+
+        // Intersection Observer for Header Color Change on Scroll
+        const observerOptions = {
+            root: null, // Use the viewport as the root
+            rootMargin: '0px',
+            threshold: 0.5 // Trigger when at least 50% of the target is visible
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                const header = document.getElementById('header');
+                if (entry.target.id === 'hero-section') {
+                    if (entry.isIntersecting) {
+                        document.body.classList.add('hero-active');
+                    } else {
+                        document.body.classList.remove('hero-active');
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe the hero section
+        const heroSection = document.getElementById('hero-section');
+        if (heroSection) {
+            observer.observe(heroSection);
+        }
+
+    </script>
+</body>
+</html>
